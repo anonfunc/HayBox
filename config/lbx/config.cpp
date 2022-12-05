@@ -112,6 +112,11 @@ void setup() {
         backends = new CommunicationBackend *[backend_count] {
             primary_backend, new B0XXInputViewer(input_sources, input_source_count)
         };
+        // Default to Melee mode.
+        primary_backend->SetGameMode(
+            // new Ultimate(socd::SOCD_2IP)
+            new FGCish(socd::SOCD_2IP)
+        );
     } else {
         delete primary_backend;
         if (button_holds.c_left) {
@@ -131,12 +136,12 @@ void setup() {
         // If not DInput then only using 1 backend (no input viewer).
         backend_count = 1;
         backends = new CommunicationBackend *[backend_count] { primary_backend };
+        // Default to Melee mode.
+        primary_backend->SetGameMode(
+            new Ultimate(socd::SOCD_2IP)
+            // new FGCish(socd::SOCD_2IP)  
+        );
     }
-
-    // Default to Melee mode.
-    primary_backend->SetGameMode(
-        new Melee20Button(socd::SOCD_2IP_NO_REAC, { .crouch_walk_os = false })
-    );
 }
 
 void loop() {
@@ -144,10 +149,10 @@ void loop() {
         bool button_l = digitalRead(brook_button_mappings[0].pin);
         bool button_mod_x = digitalRead(brook_button_mappings[1].pin);
         bool button_mod_y = digitalRead(brook_button_mappings[2].pin);
-        bool button_cstick_down = digitalRead(brook_button_mappings[6].pin);
-        bool button_a = digitalRead(brook_button_mappings[7].pin);
+        bool button_cstick_up = digitalRead(brook_button_mappings[5].pin);
+        bool button_cstick_right = digitalRead(brook_button_mappings[8].pin);
 
-        digitalWrite(brook_up_pin, button_mod_x && button_mod_y && button_cstick_down && button_a);
+        digitalWrite(brook_up_pin, button_mod_x && button_mod_y && button_cstick_up && button_cstick_right);
         digitalWrite(brook_l_pin, button_l);
         return;
     }

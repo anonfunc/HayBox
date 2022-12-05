@@ -28,16 +28,19 @@ void RivalsOfAether::UpdateDigitalOutputs(InputState &inputs, OutputState &outpu
         outputs.triggerLDigital = inputs.nunchuk_z;
     } else {
         outputs.triggerLDigital = inputs.l;
+        if (inputs.lightshield) {
+            outputs.triggerLAnalog = 49;
+        }
     }
     outputs.triggerRDigital = inputs.r;
-    outputs.start = inputs.start;
-    outputs.select = inputs.select;
-    outputs.home = inputs.home;
-    outputs.leftStickClick = inputs.lightshield;
-    outputs.rightStickClick = inputs.midshield;
+    outputs.start = !inputs.mod_y && inputs.start;
+    outputs.select = inputs.select || (inputs.mod_x && inputs.start);
+    outputs.home = inputs.home || (inputs.mod_y && inputs.start);
+    // outputs.leftStickClick = inputs.lightshield;
+    // outputs.rightStickClick = inputs.midshield;
 
     // Activate D-Pad layer by holding Mod X + Mod Y.
-    if (inputs.mod_x && inputs.mod_y) {
+    if ((inputs.mod_x && inputs.mod_y) || inputs.nunchuk_c) {
         outputs.dpadUp = inputs.c_up;
         outputs.dpadDown = inputs.c_down;
         outputs.dpadLeft = inputs.c_left;

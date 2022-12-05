@@ -22,9 +22,9 @@ void FgcMode::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
     outputs.dpadUp = inputs.mod_x || inputs.c_up;
 
     // Menu keys
-    outputs.start = inputs.start;
-    outputs.select = inputs.c_left;
-    outputs.home = inputs.c_down;
+    outputs.start = !inputs.mod_y && inputs.start;
+    outputs.select = inputs.select || (inputs.mod_x && inputs.start);
+    outputs.home = inputs.home || (inputs.mod_y && inputs.start);
 
     // Right hand bottom row
     outputs.a = inputs.b;
@@ -37,6 +37,10 @@ void FgcMode::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
     outputs.y = inputs.y;
     outputs.buttonR = inputs.lightshield;
     outputs.buttonL = inputs.midshield;
+
+    // Extra for training modes
+    outputs.leftStickClick = inputs.l;
+    outputs.rightStickClick = inputs.nunchuk_c;
 }
 
 void FgcMode::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
