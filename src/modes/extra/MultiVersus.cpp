@@ -22,10 +22,10 @@ void MultiVersus::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs)
     outputs.start = !inputs.mod_y && inputs.start;
 
     // Select, MS, or MY + Start for "Reset" in the Lab. Not supported by GameCube adapter.
-    outputs.select = inputs.select || inputs.midshield || (inputs.mod_y && inputs.start);
+    outputs.select = inputs.select || inputs.midshield || (inputs.nunchuk_c && inputs.start);
 
     // Home not supported by GameCube adapter.
-    outputs.home = inputs.home;
+    outputs.home = inputs.home || (inputs.mod_y && inputs.start);
 
     // L or Nunchuk Z = LT. Bind to "dodge" in-game.
     if (inputs.nunchuk_connected) {

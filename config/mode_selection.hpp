@@ -8,6 +8,8 @@
 #include "modes/ProjectM.hpp"
 #include "modes/RivalsOfAether.hpp"
 #include "modes/Ultimate.hpp"
+#include "modes/extra/MultiVersus.hpp"
+#include "modes/extra/FGCish.hpp"
 
 extern KeyboardMode *current_kb_mode;
 
@@ -56,6 +58,12 @@ void select_mode(CommunicationBackend *backend) {
     } else if (inputs.mod_y && !inputs.mod_x && inputs.start) {
         if (inputs.l) {
             set_mode(backend, new DefaultKeyboardMode(socd::SOCD_2IP));
+        } else if (inputs.left) {
+            set_mode(backend, new MultiVersus(socd::SOCD_2IP_NO_REAC));
+        } else if (inputs.down) {
+            set_mode(backend, new FGCish(socd::SOCD_2IP));
+        } else if (inputs.right) {
+            set_mode(backend,new RivalsOfAether(socd::SOCD_2IP));
         }
     }
 }

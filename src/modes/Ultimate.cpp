@@ -23,9 +23,9 @@ void Ultimate::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
     outputs.buttonR = inputs.z;
     outputs.triggerLDigital = inputs.l;
     outputs.triggerRDigital = inputs.r;
-    outputs.start = inputs.start;
-    outputs.select = inputs.select;
-    outputs.home = inputs.home;
+    outputs.start = !inputs.mod_y && inputs.start;
+    outputs.select = inputs.select || inputs.midshield || (inputs.mod_x && inputs.start);
+    outputs.home = inputs.home || (inputs.mod_y && inputs.start);
 
     // Turn on D-Pad layer by holding Mod X + Mod Y or Nunchuk C button.
     if ((inputs.mod_x && inputs.mod_y) || inputs.nunchuk_c) {
@@ -53,7 +53,7 @@ void Ultimate::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
         outputs
     );
 
-    bool shield_button_pressed = inputs.l || inputs.r || inputs.lightshield || inputs.midshield;
+    bool shield_button_pressed = inputs.l || inputs.r;// || inputs.lightshield || inputs.midshield;
 
     if (inputs.mod_x) {
         // MX + Horizontal = 6625 = 53

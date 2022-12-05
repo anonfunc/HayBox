@@ -35,7 +35,9 @@ void Melee20Button::UpdateDigitalOutputs(InputState &inputs, OutputState &output
         outputs.triggerLDigital = inputs.l;
     }
     outputs.triggerRDigital = inputs.r;
-    outputs.start = inputs.start;
+    outputs.start = !inputs.mod_y && inputs.start;
+    outputs.select = inputs.select || (inputs.mod_x && inputs.start);
+    outputs.home = inputs.home || (inputs.mod_y && inputs.start);
 
     // Activate D-Pad layer by holding Mod X + Mod Y or Nunchuk C button.
     if ((inputs.mod_x && inputs.mod_y) || inputs.nunchuk_c) {
