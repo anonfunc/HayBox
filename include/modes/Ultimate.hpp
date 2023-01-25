@@ -7,11 +7,14 @@
 
 class Ultimate : public ControllerMode {
   public:
-    Ultimate(socd::SocdType socd_type);
+    Ultimate(socd::SocdType socd_type, bool stretch);
 
   private:
+    bool _stretch;
     void UpdateDigitalOutputs(InputState &inputs, OutputState &outputs);
     void UpdateAnalogOutputs(InputState &inputs, OutputState &outputs);
 };
+
+int projection(int position);
 
 #endif

@@ -1,11 +1,13 @@
 /* Ultimate profile by Taker */
 #include "modes/Ultimate.hpp"
 
+#include <math.h>
+
 #define ANALOG_STICK_MIN 28
 #define ANALOG_STICK_NEUTRAL 128
 #define ANALOG_STICK_MAX 228
 
-Ultimate::Ultimate(socd::SocdType socd_type) : ControllerMode(socd_type) {
+Ultimate::Ultimate(socd::SocdType socd_type, bool stretch) : ControllerMode(socd_type) {
     _socd_pair_count = 4;
     _socd_pairs = new socd::SocdPair[_socd_pair_count]{
         socd::SocdPair{&InputState::left,    &InputState::right  },
@@ -13,6 +15,7 @@ Ultimate::Ultimate(socd::SocdType socd_type) : ControllerMode(socd_type) {
         socd::SocdPair{ &InputState::c_left, &InputState::c_right},
         socd::SocdPair{ &InputState::c_down, &InputState::c_up   },
     };
+    _stretch = stretch;
 }
 
 void Ultimate::UpdateDigitalOutputs(InputState &inputs, OutputState &outputs) {
@@ -275,4 +278,18 @@ void Ultimate::UpdateAnalogOutputs(InputState &inputs, OutputState &outputs) {
         outputs.leftStickX = inputs.nunchuk_x;
         outputs.leftStickY = inputs.nunchuk_y;
     }
+
+    if (_stretch) {
+    // Square projection fix for 8bitdos gbros
+        outputs.leftStickX = projection(outputs.leftStickX);
+        outputs.leftStickY = projection(outputs.leftStickY);
+        outputs.rightStickX = projection(outputs.rightStickX);
+        outputs.rightStickY = projection(outputs.rightStickY);
+    }
+}
+
+#define GBROS_FUDGE_AMOUNT double(ANALOG_STICK_MAX-ANALOG_STICK_NEUTRAL)/118.0
+
+int projection(int position) {
+    return int(double(position - ANALOG_STICK_NEUTRAL) * GBROS_FUDGE_AMOUNT)+ANALOG_STICK_NEUTRAL;
 }

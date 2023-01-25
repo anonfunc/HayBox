@@ -41,15 +41,16 @@ void select_mode(CommunicationBackend *backend) {
                 new Melee20Button(socd::SOCD_2IP_NO_REAC, { .crouch_walk_os = false })
             );
         } else if (inputs.left) {
-            set_mode(
-                backend,
-                new ProjectM(
-                    socd::SOCD_2IP_NO_REAC,
-                    { .true_z_press = false, .ledgedash_max_jump_traj = true }
-                )
-            );
+            set_mode(backend, new Ultimate(socd::SOCD_2IP, true));
+            // set_mode(
+            //     backend,
+            //     new ProjectM(
+            //         socd::SOCD_2IP_NO_REAC,
+            //         { .true_z_press = false, .ledgedash_max_jump_traj = true }
+            //     )
+            // );
         } else if (inputs.down) {
-            set_mode(backend, new Ultimate(socd::SOCD_2IP));
+            set_mode(backend, new Ultimate(socd::SOCD_2IP, false));
         } else if (inputs.right) {
             set_mode(backend, new FgcMode(socd::SOCD_NEUTRAL));
         } else if (inputs.b) {

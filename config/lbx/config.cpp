@@ -114,7 +114,7 @@ void setup() {
         };
         // Default to Melee mode.
         primary_backend->SetGameMode(
-            // new Ultimate(socd::SOCD_2IP)
+            // new Ultimate(socd::SOCD_2IP, false)
             new FGCish(socd::SOCD_2IP)
         );
     } else {
@@ -138,7 +138,7 @@ void setup() {
         backends = new CommunicationBackend *[backend_count] { primary_backend };
         // Default to Melee mode.
         primary_backend->SetGameMode(
-            new Ultimate(socd::SOCD_2IP)
+            new Ultimate(socd::SOCD_2IP, false)
             // new FGCish(socd::SOCD_2IP)  
         );
     }
